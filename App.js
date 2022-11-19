@@ -1,25 +1,11 @@
-import { View, StyleSheet, Image } from 'react-native'
+import { View, Text } from 'react-native'
 import React from 'react'
-import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions'
+import AppNavigator from './src/images/AppNavigator'
 
-export default function App() {
+const App = () => {
   return (
-    <View>
-      <Image source={require('./src/images/zomatoSplashScreen.png')}
-      style={styles.logo}
-      />
-    </View>
+    <AppNavigator/>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  logo:{
-    width:responsiveWidth(100),
-    height:responsiveHeight(100),
-  }
-})
+export default App
