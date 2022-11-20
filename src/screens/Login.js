@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, StatusBar, Platform, TouchableOpacity, KeyboardAvoidingView, FlatList } from 'react-native'
+import { View, Text, StyleSheet, Image, StatusBar, Platform, TouchableOpacity, KeyboardAvoidingView, FlatList, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import { responsiveFontSize, responsiveHeight } from 'react-native-responsive-dimensions'
 import { LOGIN_TITLE, THEME_COLOR } from '../strings'
@@ -6,6 +6,16 @@ import { TextInput } from 'react-native-gesture-handler'
 import auth from '@react-native-firebase/auth'
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import Modal from "react-native-modal";
+import {
+    Grayscale,
+    Sepia,
+    Tint,
+    ColorMatrix,
+    concatColorMatrices,
+    invert,
+    contrast,
+    saturate
+} from 'react-native-color-matrix-image-filters'
 
 const Login = () => {
 
@@ -32,6 +42,27 @@ const Login = () => {
         } catch (error) {
             console.log('Invalid Code')
         }
+    }
+
+    const onSelects = (index) => {
+        let tempLang = languages;
+        tempLang.map((item, ind) => {
+            if (ind === index) {
+                if (item.selected == true) {
+                    item.selected = false
+                } else {
+                    item.selected = true
+                }
+            } else {
+                item.selected = false
+            }
+        })
+        let x = [];
+        tempLang.map(item => {
+            x.push(item)
+        })
+        setLanguages(x)
+        setVisible(false)
     }
 
     return (
@@ -95,9 +126,9 @@ const Login = () => {
                 isVisible={visible}
                 style={Styles.modalStyles}
                 animationIn={'bounceInUp'}
-                animationOut={'bounceOut'}
+                // animationOut={'bounceOut'}
                 animationInTiming={1000}
-                animationOutTiming={1500}
+                // animationOutTiming={1500}
                 onBackdropPress={() => {
                     setVisible(false)
                 }}
@@ -107,16 +138,26 @@ const Login = () => {
                         data={languages}
                         renderItem={({ item, index }) => {
                             return (
-                                <TouchableOpacity style={[Styles.languageItem,{borderColor:item.selected === true? 'red' : '#8e8e8e'}]}>
-                                    <View style={{ width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', paddingLeft: 20 }}>
+                                <Pressable style={[Styles.languageItem, { borderColor: item.selected === true ? 'red' : '#8e8e8e' }]} onPress={() => { onSelects(index) }}>
+                                    <View style={{ borderRadius: 10, width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', paddingLeft: 20, justifyContent: 'space-between', backgroundColor: item.selected ? '#ffcfcf' : '#fff' }}>
+                                        <View style={{ flexDirection: 'row' }}>
+                                            {item.selected === true ? (
+                                                <Image source={require('../images/radio_selected.png')} style={{ width: 24, height: 24, tintColor: 'red' }} />
+                                            ) : (
+                                                <Image source={require('../images/radio_unSelected.png')} style={{ width: 24, height: 24 }} />
+                                            )}
+                                            <Text style={{ color: item.selected ? 'red' : 'black', fontSize: 18, fontWeight: '700', marginLeft: 10, }}>{item.name}</Text>
+                                        </View>
                                         {item.selected === true ? (
-                                            <Image source={require('../images/radio_selected.png')} style={{ width: 24, height: 24,tintColor:'red' }} />
+                                            <Image source={require('../images/LangIcon.png')} style={{ width: 30, height: 30, marginRight: 20 }} />
                                         ) : (
-                                            <Image source={require('../images/radio_unSelected.png')} style={{ width: 24, height: 24 }} />
+                                            <Grayscale style={{ marginRight: 20 }}>
+                                                <Image source={require('../images/LangIcon.png')} style={{ width: 30, height: 30, opacity: 0.5 }} />
+                                            </Grayscale>
                                         )}
-                                        <Text style={{ color: 'black', fontSize: 18, fontWeight: '700',marginLeft:10 }}>{item.name}</Text>
+
                                     </View>
-                                </TouchableOpacity>
+                                </Pressable>
                             )
                         }}
                     />
