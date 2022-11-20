@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, StatusBar, Platform, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import { View, Text, StyleSheet, Image, StatusBar, Platform, TouchableOpacity, KeyboardAvoidingView, FlatList } from 'react-native'
 import React, { useState } from 'react'
 import { responsiveFontSize, responsiveHeight } from 'react-native-responsive-dimensions'
 import { LOGIN_TITLE, THEME_COLOR } from '../strings'
@@ -14,10 +14,10 @@ const Login = () => {
     const [otp, setOtp] = useState('')
     const [visible, setVisible] = useState(false)
     const [languages, setLanguages] = useState([
-        'English',
-        'हिन्दी',
-        'ಕನ್ನಡ',
-        'ತುಳು'
+        { name: 'English', selected: true },
+        { name: 'हिन्दी', selected: false },
+        { name: 'ಕನ್ನಡ', selected: false },
+        { name: 'ತುಳು', selected: false },
     ])
 
     const signInWithPhoneNumber = async () => {
@@ -96,14 +96,30 @@ const Login = () => {
                 style={Styles.modalStyles}
                 animationIn={'bounceInUp'}
                 animationOut={'bounceOut'}
-                animationInTiming={2000}
+                animationInTiming={1000}
                 animationOutTiming={1500}
                 onBackdropPress={() => {
                     setVisible(false)
                 }}
             >
                 <View style={Styles.modalContainer}>
-
+                    <FlatList
+                        data={languages}
+                        renderItem={({ item, index }) => {
+                            return (
+                                <TouchableOpacity style={[Styles.languageItem,{borderColor:item.selected === true? 'red' : '#8e8e8e'}]}>
+                                    <View style={{ width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', paddingLeft: 20 }}>
+                                        {item.selected === true ? (
+                                            <Image source={require('../images/radio_selected.png')} style={{ width: 24, height: 24,tintColor:'red' }} />
+                                        ) : (
+                                            <Image source={require('../images/radio_unSelected.png')} style={{ width: 24, height: 24 }} />
+                                        )}
+                                        <Text style={{ color: 'black', fontSize: 18, fontWeight: '700',marginLeft:10 }}>{item.name}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )
+                        }}
+                    />
                 </View>
             </Modal>
         </View>
@@ -194,6 +210,7 @@ const Styles = StyleSheet.create({
         borderTopRightRadius: 20,
         height: 300,
         width: '100%',
+        paddingTop: 10
     },
     modalStyles: {
         justifyContent: 'flex-end',
@@ -213,5 +230,13 @@ const Styles = StyleSheet.create({
         width: 24,
         height: 24,
         borderRadius: 50
-    }
+    },
+    languageItem: {
+        width: '90%',
+        borderRadius: 10,
+        alignSelf: 'center',
+        height: 60,
+        borderWidth: 1,
+        marginTop: 10
+    },
 })
