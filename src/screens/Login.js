@@ -5,12 +5,20 @@ import { LOGIN_TITLE, THEME_COLOR } from '../strings'
 import { TextInput } from 'react-native-gesture-handler'
 import auth from '@react-native-firebase/auth'
 import OTPInputView from '@twotalltotems/react-native-otp-input'
+import Modal from "react-native-modal";
 
 const Login = () => {
 
     const [mobile, setMobile] = useState('')
     const [confirm, setConfirm] = useState(null)
     const [otp, setOtp] = useState('')
+    const [visible, setVisible] = useState(false)
+    const [languages, setLanguages] = useState([
+        'English',
+        'हिन्दी',
+        'ಕನ್ನಡ',
+        'ತುಳು'
+    ])
 
     const signInWithPhoneNumber = async () => {
         const confirmation = await auth().signInWithPhoneNumber('+971' + mobile);
@@ -31,6 +39,9 @@ const Login = () => {
             <StatusBar translucent backgroundColor={'transparent'} />
             <View style={Styles.topView}>
                 <Image source={require('../images/banner.png')} style={Styles.banner} />
+                <TouchableOpacity style={Styles.changeLangBtn} onPress={() => { setVisible(true) }}>
+                    <Image source={require('../images/languages.png')} style={Styles.langIcon} />
+                </TouchableOpacity>
             </View>
             <Text style={Styles.loginTitle}>{LOGIN_TITLE}</Text>
             <View style={Styles.divider}>
@@ -51,7 +62,11 @@ const Login = () => {
                             setMobile(txt)
                         }}
                     />
-                    <TouchableOpacity style={Styles.loginButton} onPress={() => { signInWithPhoneNumber() }}>
+                    <TouchableOpacity style={Styles.loginButton} onPress={() => {
+                        // signInWithPhoneNumber()
+                        setVisible(true)
+                    }}
+                    >
                         <Text style={Styles.loginBtnText}>Login</Text>
                     </TouchableOpacity>
                 </View>
@@ -69,17 +84,28 @@ const Login = () => {
                             console.log(`Code is ${code}, you are good to go!`)
                             setOtp(code)
                         })}
-                        // secureTextEntry={true}
+                    // secureTextEntry={true}
                     />
                     <TouchableOpacity style={Styles.loginButton} onPress={() => { verifyCode() }}>
                         <Text style={Styles.loginBtnText}>Verify OTP</Text>
                     </TouchableOpacity>
                 </View>
             )}
-            <View>
+            <Modal
+                isVisible={visible}
+                style={Styles.modalStyles}
+                animationIn={'bounceInUp'}
+                animationOut={'bounceOut'}
+                animationInTiming={2000}
+                animationOutTiming={1500}
+                onBackdropPress={() => {
+                    setVisible(false)
+                }}
+            >
+                <View style={Styles.modalContainer}>
 
-            </View>
-
+                </View>
+            </Modal>
         </View>
     )
 }
@@ -157,9 +183,35 @@ const Styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         borderColor: '#000',
-        color:'#000'
+        color: '#000'
     },
     underlineStyleHighLighted: {
         borderColor: "red",
     },
+    modalContainer: {
+        backgroundColor: 'white',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        height: 300,
+        width: '100%',
+    },
+    modalStyles: {
+        justifyContent: 'flex-end',
+        margin: 0,
+    },
+    changeLangBtn: {
+        // borderWidth:1,
+        // borderColor:'#fff',
+        padding: 5,
+        position: 'absolute',
+        top: 50,
+        right: 20,
+        borderRadius: 50,
+        backgroundColor: 'white'
+    },
+    langIcon: {
+        width: 24,
+        height: 24,
+        borderRadius: 50
+    }
 })
