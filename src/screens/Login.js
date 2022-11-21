@@ -16,6 +16,7 @@ import {
     contrast,
     saturate
 } from 'react-native-color-matrix-image-filters'
+import { useNavigation } from '@react-navigation/native'
 
 const Login = () => {
 
@@ -29,6 +30,7 @@ const Login = () => {
         { name: 'ಕನ್ನಡ', selected: false },
         { name: 'ತುಳು', selected: false },
     ])
+    const navigation = useNavigation()
 
     const signInWithPhoneNumber = async () => {
         const confirmation = await auth().signInWithPhoneNumber('+971' + mobile);
@@ -95,7 +97,8 @@ const Login = () => {
                     />
                     <TouchableOpacity style={Styles.loginButton} onPress={() => {
                         // signInWithPhoneNumber()
-                        setVisible(true)
+                        // setVisible(true)
+                        navigation.navigate('MainScreen')
                     }}
                     >
                         <Text style={Styles.loginBtnText}>Login</Text>
