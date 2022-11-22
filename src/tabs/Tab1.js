@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions'
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions'
 
 const Tab1 = () => {
     return (
@@ -27,7 +27,7 @@ const Tab1 = () => {
                 <Image source={require('../images/voice.png')} style={styles.location} />
             </View>
             {/* *********************************FILTER ********************************* */}
-            <View style={{ marginTop: 20,paddingRight:7 }}>
+            <View style={{ marginTop: 20, paddingRight: 7 }}>
                 <FlatList
                     horizontal
                     showsHorizontalScrollIndicator={false}
@@ -40,10 +40,46 @@ const Tab1 = () => {
                                     <Text style={{ color: '#8e8e8e' }}>
                                         {item}
                                     </Text>
-                                    {item == 'Sort' || item == 'More'  && <Image source={require('../images/DropDown.png')} style={[styles.location, { tintColor: 'black', width: 10, height: 10, marginRight: 5, marginLeft: 5 }]} />}
+                                    {item == 'Sort' || item == 'More' && <Image source={require('../images/DropDown.png')} style={[styles.location, { tintColor: 'black', width: 10, height: 10, marginRight: 5, marginLeft: 5 }]} />}
                                 </View>
                             </TouchableOpacity>
                         );
+                    }}
+                />
+            </View>
+            {/* Banner */}
+            <View style={styles.upperView}>
+                <TouchableOpacity style={styles.card}>
+                    <Image source={require('../images/offers.jpg')} style={styles.cardImage} />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.card}>
+                    <Image source={require('../images/GreenHealthy.jpg')} style={styles.cardImage} />
+                </TouchableOpacity>
+            </View>
+            <TouchableOpacity style={styles.banner}>
+                <Image source={require('../images/oederNow.jpg')} style={styles.bannerImage} />
+            </TouchableOpacity>
+
+            <Text style={styles.categoryTitle}>Top Brands For you</Text>
+
+            <View style={{ marginTop: 10 }}>
+                <FlatList
+                    data={[
+                        require('../images/BK.png'), 
+                        require('../images/DMNOS.png'), 
+                        require('../images/kfc.png'), 
+                        require('../images/sw.png')
+                    ]}
+                    horizontal
+                    renderItem={({item, index}) => {
+                        return (
+                            <View style={styles.brandItem}>
+                                <View style={styles.brandImageView}>
+                                    <Image source={item} style={styles.brandImage} />
+                                </View>
+                            </View>
+                        )
                     }}
                 />
             </View>
@@ -56,12 +92,12 @@ export default Tab1
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff"
+        backgroundColor: "#f2f2f2"
     },
     header: {
         height: responsiveHeight(8),
         width: responsiveWidth(100),
-        backgroundColor: 'white',
+        backgroundColor: '#f2f2f2',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -121,5 +157,55 @@ const styles = StyleSheet.create({
         height: '100%',
         paddingLeft: 5,
         paddingRight: 5,
+    },
+    upperView: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        marginTop: 30,
+    },
+    card: {
+        width: responsiveWidth(38),
+        height: responsiveHeight(15),
+        borderRadius: 10,
+    },
+    banner: {
+        width: '90%',
+        alignSelf: 'center',
+        marginTop: 30,
+        height: responsiveHeight(20)
+    },
+    cardImage: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 10
+    },
+    bannerImage: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 10,
+    },
+    categoryTitle: {
+        color: 'black',
+        fontWeight: '800',
+        marginTop: 20,
+        marginLeft: 20,
+        fontSize: responsiveFontSize(2.2),
+    },
+    brandItem: {
+        marginLeft: 10,
+    },
+    brandImage: {
+        width: '80%',
+        height: '90%',
+        resizeMode:'contain'
+    },
+    brandImageView: {
+        backgroundColor: '#fff',
+        width: responsiveWidth(14),
+        height: responsiveWidth(14),
+        borderRadius: responsiveWidth(14) / 2,
+        alignItems: 'center',
+        justifyContent:'center'
     }
 })

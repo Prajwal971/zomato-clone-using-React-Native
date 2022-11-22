@@ -44,7 +44,8 @@ const styles = StyleSheet.create({
         bottom: 0,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        elevation:5,
     },
     tab: {
         width: '30%',
