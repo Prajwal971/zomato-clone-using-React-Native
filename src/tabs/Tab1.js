@@ -99,7 +99,19 @@ const Tab1 = () => {
                                 <TouchableOpacity style={styles.recommededItem}>
                                     <Image source={require('../images/pizza.jpg')} style={styles.recommededItemImage} />
                                     <View style={styles.recommededItemPriceView}>
-                                        <Text></Text>
+                                        <Text style={{ color: 'black' }}>Rome's Pizza</Text>
+                                        <View style={styles.recommendedItemName}>
+                                            <Text>4.9⭐</Text>
+                                        </View>
+                                    </View>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 10, marginTop: 10 }}>
+                                        <Text style={{ color: 'grey', marginLeft: 5, fontSize: 12 }}>⏱️ 36 Min</Text>
+                                        <Text style={{ color: 'grey', marginLeft: 5, fontSize: 12 }}> 5km</Text>
+                                    </View>
+
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 10, marginTop: 5 }}>
+                                        <Text style={{ color: 'pink', marginLeft: 5, fontSize: 12 }}> ₹ </Text>
+                                        <Text style={{ color: 'grey', marginLeft: 5, fontSize: 12 }}>150 for one</Text>
                                     </View>
                                 </TouchableOpacity>
                             )
@@ -247,15 +259,26 @@ const styles = StyleSheet.create({
     },
     recommededItem: {
         width: responsiveWidth(40),
-        height: responsiveHeight(30),
+        height: responsiveHeight(38),
         backgroundColor: 'white',
         borderRadius: 10,
         marginLeft: 15
     },
-    itemImage: { width: '100%', height: '70%', borderTopLeftRadius: 20, borderTopRightRadius: 20 },
-    recommededItemPriceView:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center'
+    recommededItemImage: { width: '100%', height: '70%', borderTopLeftRadius: 20, borderTopRightRadius: 20 },
+    recommededItemPriceView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 10,
+        paddingRight: 10,
+        paddingLeft: 10
+    },
+    recommendedItemName: {
+        width: 40,
+        height: 25,
+        backgroundColor: 'green',
+        borderRadius: 6,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
