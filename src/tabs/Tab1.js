@@ -26,17 +26,24 @@ const Tab1 = () => {
                 <Text style={styles.searchText}>Search Items</Text>
                 <Image source={require('../images/voice.png')} style={styles.location} />
             </View>
-            <View>
+            {/* *********************************FILTER ********************************* */}
+            <View style={{ marginTop: 20,paddingRight:7 }}>
                 <FlatList
-                    data = {[1,1,1,1,1,1,1]}
-                    renderItem={{item,inde} = () => {
-                        return(
-                            <TouchableOpacity style = {styles.filterItems}>
-                                <View>
-
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={["Sort", "Fast Delivery", "Rating 4.0+", "Pure Veg", "Cousines", "More"]}
+                    renderItem={({ item, index }) => {
+                        return (
+                            <TouchableOpacity style={styles.filterItems}>
+                                <View style={styles.fliterItemView}>
+                                    {item == 'Sort' && <Image source={require('../images/filter.png')} style={[styles.location, { tintColor: 'black', width: 20, height: 20, marginRight: 5 }]} />}
+                                    <Text style={{ color: '#8e8e8e' }}>
+                                        {item}
+                                    </Text>
+                                    {item == 'Sort' || item == 'More'  && <Image source={require('../images/DropDown.png')} style={[styles.location, { tintColor: 'black', width: 10, height: 10, marginRight: 5, marginLeft: 5 }]} />}
                                 </View>
                             </TouchableOpacity>
-                        )
+                        );
                     }}
                 />
             </View>
@@ -101,7 +108,18 @@ const styles = StyleSheet.create({
         width: '80%',
         marginLeft: 20
     },
-    filterItems:{
-        
+    filterItems: {
+        borderWidth: 0.5,
+        borderRadius: 5,
+        marginLeft: 15,
+        height: 30,
+    },
+    fliterItemView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%',
+        paddingLeft: 5,
+        paddingRight: 5,
     }
 })
